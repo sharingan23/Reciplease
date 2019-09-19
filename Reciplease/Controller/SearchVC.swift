@@ -13,17 +13,13 @@ class SearchVC: UIViewController {
     
     @IBOutlet weak var searchTF: UITextField!
     
-    
-    var listIngredients = ["- Apple",
-                           "- Tomatoes",
-                           "- Curry",
-                           "- Chicken"]
+    var listIngredients : [String] = []
+    var stringIngredients : String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         tblIngredients.tableFooterView = UIView()
-        
         navigationItem.title = "Reciplease"
         
         //title color
@@ -31,7 +27,6 @@ class SearchVC: UIViewController {
         navigationController?.navigationBar.titleTextAttributes = textAttributes
         
         self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "Noteworthy", size: 20)!]*/
-
         
         //nav white color
         navigationController?.navigationBar.barTintColor = #colorLiteral(red: 0.2117647059, green: 0.2, blue: 0.1960784314, alpha: 1)
@@ -41,10 +36,23 @@ class SearchVC: UIViewController {
         // Do any additional setup after loading the view.
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        self.tabBarController?.tabBar.isHidden              = false
+    }
+    
+    func listIngredientsToString(listIngredients: [String]) -> String {
+        
+        for ingredients in listIngredients{
+            stringIngredients! += "+\(ingredients)"
+        }
+        return stringIngredients!
+    }
+    
     @IBAction func addIngredients(_ sender: Any) {
         if let searchTF = searchTF{
         let ingredient = "- \(searchTF.text!)"
         listIngredients.append(ingredient)
+        stringIngredients = searchTF.text!
         tblIngredients.reloadData()
         }
     }
@@ -68,13 +76,21 @@ class SearchVC: UIViewController {
         self.present(alert, animated: true, completion: nil)
             
         }else {
-            
             let backItem = UIBarButtonItem()
             backItem.tintColor = #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 1)
             backItem.title = ""
             navigationItem.backBarButtonItem = backItem
+            print(listIngredients)
+            print(stringIngredients)
             
+            let storyboard = UIStoryboard (name: "Main", bundle: nil)
+            let researchVC = storyboard.instantiateViewController(withIdentifier: "ResearchVC")as! ResearchVC
             
+            // Communicate with new VC - These values are stored in the destination
+            // you can set any value stored in the destination VC here
+            researchVC.searchIngredients = stringIngredients
+            researchVC.isFavorite = false
+            self.navigationController?.pushViewController(researchVC, animated: true)
         }
     }
     
@@ -90,7 +106,6 @@ class SearchVC: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
-
 }
 
 
@@ -98,7 +113,6 @@ extension SearchVC : UITableViewDataSource, UITableViewDelegate{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return listIngredients.count
     }
-    
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -111,6 +125,4 @@ extension SearchVC : UITableViewDataSource, UITableViewDelegate{
         
         return cell
     }
-    
-    
 }

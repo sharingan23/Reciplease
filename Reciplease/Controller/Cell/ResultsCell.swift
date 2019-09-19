@@ -9,6 +9,10 @@ import UIKit
 
 class ResultsCell: UITableViewCell {
 
+    @IBOutlet weak var recipeNameLbl: UILabel!
+    @IBOutlet weak var ingredientsLbl: UILabel!
+    @IBOutlet weak var recipeImg: UIImageView!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
