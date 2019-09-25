@@ -14,7 +14,7 @@ class SearchVC: UIViewController {
     @IBOutlet weak var searchTF: UITextField!
     
     var listIngredients : [String] = []
-    var stringIngredients : String?
+    var stringIngredients = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,19 +40,14 @@ class SearchVC: UIViewController {
         self.tabBarController?.tabBar.isHidden              = false
     }
     
-    func listIngredientsToString(listIngredients: [String]) -> String {
-        
-        for ingredients in listIngredients{
-            stringIngredients! += "+\(ingredients)"
-        }
-        return stringIngredients!
-    }
-    
     @IBAction func addIngredients(_ sender: Any) {
         if let searchTF = searchTF{
-        let ingredient = "- \(searchTF.text!)"
-        listIngredients.append(ingredient)
-        stringIngredients = searchTF.text!
+        let ingredient = searchTF.text!
+        listIngredients.append("- \(ingredient)")
+        stringIngredients = stringIngredients + " \(ingredient)"
+            
+        searchTF.text = ""
+            
         tblIngredients.reloadData()
         }
     }
@@ -80,8 +75,7 @@ class SearchVC: UIViewController {
             backItem.tintColor = #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 1)
             backItem.title = ""
             navigationItem.backBarButtonItem = backItem
-            print(listIngredients)
-            print(stringIngredients)
+            
             
             let storyboard = UIStoryboard (name: "Main", bundle: nil)
             let researchVC = storyboard.instantiateViewController(withIdentifier: "ResearchVC")as! ResearchVC

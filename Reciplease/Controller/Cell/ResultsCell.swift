@@ -13,6 +13,9 @@ class ResultsCell: UITableViewCell {
     @IBOutlet weak var ingredientsLbl: UILabel!
     @IBOutlet weak var recipeImg: UIImageView!
     
+    @IBOutlet weak var lblTime: UILabel!
+    
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

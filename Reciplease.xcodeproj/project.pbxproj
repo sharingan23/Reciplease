@@ -10,6 +10,10 @@
 		4B69BC740AB07B2658330A8B /* Pods_Reciplease.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF739A6D4E5DCAC673DFB04C /* Pods_Reciplease.framework */; };
 		5D19260A636CDD776DDE3DDF /* Pods_RecipleaseTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29CB4558A3BB1CB7C58DFB0D /* Pods_RecipleaseTests.framework */; };
 		76B82D3D12023363E7CA5ACB /* Pods_RecipleaseUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB235A3714161AA485712F58 /* Pods_RecipleaseUITests.framework */; };
+		791B929A233666E00050DA68 /* Ingredient+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 791B9296233666E00050DA68 /* Ingredient+CoreDataClass.swift */; };
+		791B929B233666E00050DA68 /* Ingredient+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 791B9297233666E00050DA68 /* Ingredient+CoreDataProperties.swift */; };
+		791B929C233666E00050DA68 /* Recipe+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 791B9298233666E00050DA68 /* Recipe+CoreDataClass.swift */; };
+		791B929D233666E00050DA68 /* Recipe+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 791B9299233666E00050DA68 /* Recipe+CoreDataProperties.swift */; };
 		79292E4B22B039E600C84EA1 /* ResearchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79292E4A22B039E600C84EA1 /* ResearchVC.swift */; };
 		79292E4D22B03A3000C84EA1 /* ResultsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79292E4C22B03A3000C84EA1 /* ResultsCell.swift */; };
 		79292E5022B0438100C84EA1 /* SearchManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79292E4F22B0438100C84EA1 /* SearchManager.swift */; };
@@ -47,6 +51,10 @@
 /* Begin PBXFileReference section */
 		29CB4558A3BB1CB7C58DFB0D /* Pods_RecipleaseTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RecipleaseTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		40F6B0A194948B476BD46C11 /* Pods-Reciplease.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Reciplease.debug.xcconfig"; path = "Target Support Files/Pods-Reciplease/Pods-Reciplease.debug.xcconfig"; sourceTree = "<group>"; };
+		791B9296233666E00050DA68 /* Ingredient+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ingredient+CoreDataClass.swift"; sourceTree = "<group>"; };
+		791B9297233666E00050DA68 /* Ingredient+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ingredient+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		791B9298233666E00050DA68 /* Recipe+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Recipe+CoreDataClass.swift"; sourceTree = "<group>"; };
+		791B9299233666E00050DA68 /* Recipe+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Recipe+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		79292E4A22B039E600C84EA1 /* ResearchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResearchVC.swift; sourceTree = "<group>"; };
 		79292E4C22B03A3000C84EA1 /* ResultsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsCell.swift; sourceTree = "<group>"; };
 		79292E4F22B0438100C84EA1 /* SearchManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchManager.swift; sourceTree = "<group>"; };
@@ -212,6 +220,10 @@
 		79913CF223337F4100C04B84 /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
+				791B9296233666E00050DA68 /* Ingredient+CoreDataClass.swift */,
+				791B9297233666E00050DA68 /* Ingredient+CoreDataProperties.swift */,
+				791B9298233666E00050DA68 /* Recipe+CoreDataClass.swift */,
+				791B9299233666E00050DA68 /* Recipe+CoreDataProperties.swift */,
 			);
 			path = CoreData;
 			sourceTree = "<group>";
@@ -412,12 +424,14 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Reciplease/Pods-Reciplease-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/Kingfisher/Kingfisher.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 			);
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Kingfisher.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -454,14 +468,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				791B929C233666E00050DA68 /* Recipe+CoreDataClass.swift in Sources */,
 				79292E4B22B039E600C84EA1 /* ResearchVC.swift in Sources */,
 				79A84C49232828C700006DDD /* IngredientsSectionHeaderCell.swift in Sources */,
 				79A84C47232826B400006DDD /* IngredientsVC.swift in Sources */,
 				79292E5022B0438100C84EA1 /* SearchManager.swift in Sources */,
 				793CF8DE22A858A600F6DB94 /* IngredientsCell.swift in Sources */,
 				79A84C4B232828E100006DDD /* IngredientsDetailCell.swift in Sources */,
+				791B929D233666E00050DA68 /* Recipe+CoreDataProperties.swift in Sources */,
+				791B929B233666E00050DA68 /* Ingredient+CoreDataProperties.swift in Sources */,
 				79292E4D22B03A3000C84EA1 /* ResultsCell.swift in Sources */,
 				793CF8DA22A83F6D00F6DB94 /* SearchVC.swift in Sources */,
+				791B929A233666E00050DA68 /* Ingredient+CoreDataClass.swift in Sources */,
 				793CF8AF22A83E8D00F6DB94 /* Reciplease.xcdatamodeld in Sources */,
 				793CF8A722A83E8D00F6DB94 /* AppDelegate.swift in Sources */,
 			);

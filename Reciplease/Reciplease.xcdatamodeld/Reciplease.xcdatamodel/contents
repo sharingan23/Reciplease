@@ -6,10 +6,11 @@
     </entity>
     <entity name="Recipe" representedClassName="Recipe" syncable="YES">
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="urlImage" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="newRelationship" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Ingredient" inverseName="newRelationship" inverseEntity="Ingredient" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Ingredient" positionX="-1319" positionY="-1091" width="128" height="75"/>
-        <element name="Recipe" positionX="-1563.99609375" positionY="-1098.296875" width="128" height="75"/>
+        <element name="Ingredient" positionX="-1317.98828125" positionY="-1097.73046875" width="128" height="75"/>
+        <element name="Recipe" positionX="-1563.99609375" positionY="-1098.296875" width="128" height="90"/>
     </elements>
 </model>

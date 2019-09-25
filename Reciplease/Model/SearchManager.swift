@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Alamofire
 
 struct Recipes: Codable {
     let q: String
@@ -33,6 +34,8 @@ struct Recipe: Codable {
     let yield: Int
     let dietLabels, healthLabels, cautions, ingredientLines: [String]
     let ingredients: [Ingredient]
+    let totalTime : Float
+    
 }
 
 // MARK: - Ingredient
@@ -51,7 +54,7 @@ class SearchManager {
     init(recipeSession: URLSession) {
         self.recipeSession = recipeSession
     }
-        
+    
     //function that retrieive JSON from server and convert the data into our struct
     func getRecip(ingredients: String, completionHandler: @escaping (Recipes?, Error?) -> Void) {
         let request = createRecipeRequest(ingredients: ingredients) 
@@ -77,6 +80,24 @@ class SearchManager {
             }
         }
         task.resume()
+    }
+    
+    //function that retrieive JSON from server and convert the data into our struct
+    
+    func getRecipAlamo(ingredients: String, completionHandler: @escaping (Recipes?, Error?) -> Void) {
+        Alamofire.request("https://api.edamam.com/search?", method: .get, parameters: ["q": ingredients,"app_id" : app_id,"app_key" :app_key])
+            .validate()
+            .responseJSON {response in
+                guard let data = response.data else { return }
+                do {
+                    let decoder = JSONDecoder()
+                    let responseJSON = try decoder.decode(Recipes.self, from: data)
+                    completionHandler(responseJSON, nil)
+                } catch let error {
+                    print(error)
+                    completionHandler(nil, error)
+                }
+        }
     }
         
     // Request
