@@ -10,7 +10,7 @@ import Kingfisher
 
 class ResearchVC: UIViewController {
     
-    var search = SearchManager(recipeSession: URLSession(configuration: .default))
+    var search = SearchManager()
     
     var searchIngredients : String?
 
@@ -88,32 +88,18 @@ class ResearchVC: UIViewController {
         }
     }*/
     
-    func getRecipe(ingredients: String){
-       search.getRecip(ingredients: ingredients) { (recipe, error) in
-        
-            if let recipe = recipe {
-                self.dataRecipe = recipe
-                for  item in recipe.hits {
-                    self.listRecipe.append(item.recipe.label)
-                }
-            }
-            self.tblResults.reloadData()
-        }
-    }
-    
     func getRecipeAlamo(ingredients: String){
-        search.getRecipAlamo(ingredients: ingredients) { (recipe, error) in
-            
-            if let recipe = recipe {
-                self.dataRecipe = recipe
-                for  item in recipe.hits {
-                    self.listRecipe.append(item.recipe.label)
-                    
+        //search.getRecipAlamo(ingredients: ingredients) { (recipe, error) in
+        search.networkRequest.request(URL(string: "https://api.edamam.com/search?")!, ingredients: ingredients) { (recipe, error) in
+                if let recipe = recipe {
+                    self.dataRecipe = recipe
+                    for  item in recipe.hits {
+                        self.listRecipe.append(item.recipe.label)
+                    }
                 }
+                self.tblResults.reloadData()
             }
-            self.tblResults.reloadData()
         }
-    }
     
     func displayRecipeList()  {
         var recipeNameText = ""
@@ -159,8 +145,7 @@ extension ResearchVC : UITableViewDataSource, UITableViewDelegate{
         
         if isFavorite{
             cell.recipeNameLbl.text = Recipe.allRecipe[indexPath.row].name
-            
-            print("\(Recipe.allRecipe[indexPath.row].name)")
+            cell.ingredientsLbl.text = Recipe.allRecipe[indexPath.row].ingredients
             
             if let urlUnwrap = Recipe.allRecipe[indexPath.row].urlImage {
                 url = URL(string: urlUnwrap)
@@ -180,6 +165,8 @@ extension ResearchVC : UITableViewDataSource, UITableViewDelegate{
         
             cell.recipeNameLbl.text = dataRecipe?.hits[indexPath.row].recipe.label
             cell.lblTime.text = "\((dataRecipe?.hits[indexPath.row].recipe.totalTime)!)"
+            cell.ingredientsLbl.text = dataRecipe?.hits[indexPath.row].recipe.source
+            
             if let urlUnwrap = (dataRecipe?.hits[indexPath.row].recipe.image) {
         
                 url = URL(string: urlUnwrap)
@@ -190,14 +177,6 @@ extension ResearchVC : UITableViewDataSource, UITableViewDelegate{
                 cell.recipeImg.image = UIImage(contentsOfFile: "noImage")
             }
         }
-        
-        /*let data = try? Data(contentsOf: url!)
-        
-        cell.recipeImg.image = UIImage(data: data!)
-        
-        */
-        
-        //cell.ingredientsLbl.text = listIngredientsToString(listIngredients: (dataRecipe?.hits[indexPath.row].recipe.healthLabels)!)
         
         return cell
     }

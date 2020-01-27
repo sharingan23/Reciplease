@@ -20,6 +20,10 @@ class IngredientsVC: UIViewController {
     @IBOutlet weak var imgRecipe: UIImageView!
     @IBOutlet weak var recipeName: UILabel!
     
+    @IBOutlet weak var ingredientLbl: UILabel!
+    
+    
+    @IBOutlet weak var ingredientTbl: UITableView!
     var dataRecipe : Recipes.Recipe?
     
     var indexRecipe : Int? = nil
@@ -42,9 +46,15 @@ class IngredientsVC: UIViewController {
         
         navigationItem.title = "Reciplease"
         
+        ingredientLbl.isHidden = true
+        ingredientTbl.tableFooterView = UIView()
+        
         if isFavorite{
             recipeName.text = Recipe.allRecipe[indexRecipe!].name
             url = URL(string: (Recipe.allRecipe[indexRecipe!].urlImage)!)
+            ingredientLbl.isHidden = false
+            //cell.lblingredients.text = Recipe.allRecipe[indexRecipe!].ingredients
+            ingredientLbl.text = Recipe.allRecipe[indexRecipe!].ingredients
             imgRecipe.kf.setImage(with: url)
         }else{
             recipeName.text = dataRecipe!.label
@@ -69,20 +79,28 @@ class IngredientsVC: UIViewController {
     }
     
     func saveRecipe() {
+        var ingredientsOneline = ""
         let ctx = AppDelegate.viewContext
-        let ingredient = Ingredient(context: ctx)
         let recipe = Recipe(context: ctx)
         
         if let recipeFavorite = dataRecipe{
                 recipe.name = (recipeFavorite.label)
-            
                 recipe.urlImage = (recipeFavorite.image)
             
-                try? AppDelegate.viewContext.save()
+            for ingredientsL in recipeFavorite.ingredientLines{
+                
+            ingredientsOneline += ("\(ingredientsL) ")
+                
+            }
+            
+            recipe.ingredients = ingredientsOneline
+            
+            try? AppDelegate.viewContext.save()
+            
+           
         }else{
             print("no recipe")
         }
-        //print(recipe.name!)
     }
     
     func deleteRecipe(index: Int) {
@@ -92,8 +110,6 @@ class IngredientsVC: UIViewController {
     }
     
     func deleteAllRecipe() {
-        let recipe = Recipe(context: AppDelegate.viewContext)
-        
         Recipe.deleteALLRecipe()
         
         try? AppDelegate.viewContext.save()
@@ -123,11 +139,7 @@ class IngredientsVC: UIViewController {
 extension IngredientsVC: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if isFavorite{
-            if let recipesFavorite = listRecipeFavorite{
-                return recipesFavorite.count
-            }else{
-                return 0
-            }
+            return 0
         }else{
             return (dataRecipe?.ingredientLines.count)!
         }
@@ -150,9 +162,10 @@ extension IngredientsVC: UITableViewDataSource, UITableViewDelegate {
         let cell = tableView.dequeueReusableCell(withIdentifier: "IngredientsDetailCell") as!  IngredientsDetailCell
         
         if fromFavorite {
-            
         }else{
+            ingredientLbl.isHidden = true
             cell.lblingredients.text = dataRecipe!.ingredientLines[indexPath.row]
+            
         }
         
         return cell

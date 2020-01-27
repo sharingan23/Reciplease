@@ -2,7 +2,7 @@
 //  Recipe+CoreDataProperties.swift
 //  Reciplease
 //
-//  Created by Vigneswaranathan Sugeethkumar on 21/09/2019.
+//  Created by Vigneswaranathan Sugeethkumar on 27/09/2019.
 //
 //
 
@@ -17,24 +17,9 @@ extension Recipe {
     }
 
     @NSManaged public var name: String?
+    @NSManaged public var source: String?
+    @NSManaged public var timeRecipe: String?
     @NSManaged public var urlImage: String?
-    @NSManaged public var newRelationship: NSSet?
-
-}
-
-// MARK: Generated accessors for newRelationship
-extension Recipe {
-
-    @objc(addNewRelationshipObject:)
-    @NSManaged public func addToNewRelationship(_ value: Ingredient)
-
-    @objc(removeNewRelationshipObject:)
-    @NSManaged public func removeFromNewRelationship(_ value: Ingredient)
-
-    @objc(addNewRelationship:)
-    @NSManaged public func addToNewRelationship(_ values: NSSet)
-
-    @objc(removeNewRelationship:)
-    @NSManaged public func removeFromNewRelationship(_ values: NSSet)
+    @NSManaged public var ingredients: String?
 
 }

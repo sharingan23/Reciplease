@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 import Alamofire
 
 struct Recipes: Codable {
@@ -45,47 +46,14 @@ struct Ingredient: Codable {
 }
 
 }
-class SearchManager {
-    let app_key = "ee348a318fd1b8d69c386392af8d06cc"
-    let app_id = "5dc02db6"
-    
-    private var recipeSession = URLSession(configuration: .default)
-    // Initialization URLSession
-    init(recipeSession: URLSession) {
-        self.recipeSession = recipeSession
-    }
-    
-    //function that retrieive JSON from server and convert the data into our struct
-    func getRecip(ingredients: String, completionHandler: @escaping (Recipes?, Error?) -> Void) {
-        let request = createRecipeRequest(ingredients: ingredients) 
-            
-        let task = recipeSession.dataTask(with: request) { (data, response, error) in
-            DispatchQueue.main.async {
-                guard let data = data, error == nil else {
-                    completionHandler( nil, error)
-                    return
-                }
-                    
-                guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
-                    completionHandler( nil, error)
-                    return
-                }
-                do {
-                    // try to decode the JSON
-                    let responseJSON = try JSONDecoder().decode(Recipes.self, from: data)
-                    completionHandler(responseJSON, nil)
-                } catch {
-                    completionHandler( nil, error)
-                }
-            }
-        }
-        task.resume()
-    }
-    
-    //function that retrieive JSON from server and convert the data into our struct
-    
-    func getRecipAlamo(ingredients: String, completionHandler: @escaping (Recipes?, Error?) -> Void) {
-        Alamofire.request("https://api.edamam.com/search?", method: .get, parameters: ["q": ingredients,"app_id" : app_id,"app_key" :app_key])
+
+protocol NetworkRequest {
+    func request(_ url: URL,ingredients: String, completionHandler: @escaping(Recipes?, Error?) -> Void)
+}
+
+struct AlamofireNetworkRequest: NetworkRequest {
+    func request(_ url: URL,ingredients: String, completionHandler: @escaping(Recipes?, Error?) -> Void) {
+        Alamofire.request("https://api.edamam.com/search?", method: .get, parameters: ["q": ingredients,"app_id" : macros.app_id,"app_key" :macros.app_key])
             .validate()
             .responseJSON {response in
                 guard let data = response.data else { return }
@@ -99,12 +67,32 @@ class SearchManager {
                 }
         }
     }
-        
-    // Request
-    func createRecipeRequest(ingredients: String) -> URLRequest {
-        
-        let request = URLRequest(url: URL(string: "https://api.edamam.com/search?q=\(ingredients)&app_id=\(app_id)&app_key=\(app_key)")!)
+}
+
+struct FakeNetworkRequest: NetworkRequest {
+    var error: Error?
+    var response: Data?
+    func request(_ url: URL,ingredients: String, completionHandler: (Recipes?, Error?) -> Void) {
+        if error != nil {
+            completionHandler(nil, error)
+        } else {
+            guard let response = response else {
+                return completionHandler(nil, error)
+            }
             
-        return request
+            do {
+                let decoder = JSONDecoder()
+                let responseJSON = try decoder.decode(Recipes.self, from: response)
+                completionHandler(responseJSON, nil)
+            } catch let error {
+                print(error)
+                completionHandler(nil, error)
+            }
+        }
     }
+}
+
+class SearchManager {
+    
+    var networkRequest: NetworkRequest = AlamofireNetworkRequest()
 }
