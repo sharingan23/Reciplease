@@ -20,6 +20,7 @@ extension Recipe {
     @NSManaged public var source: String?
     @NSManaged public var timeRecipe: String?
     @NSManaged public var urlImage: String?
+    @NSManaged public var url: String?
     @NSManaged public var ingredients: String?
 
 }

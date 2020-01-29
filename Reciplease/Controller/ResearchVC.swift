@@ -10,6 +10,7 @@ import Kingfisher
 
 class ResearchVC: UIViewController {
     
+    // MARK:- VARIABLES
     var search = SearchManager()
     
     var searchIngredients : String?
@@ -24,8 +25,10 @@ class ResearchVC: UIViewController {
     
     var ingredientsString = ""
     
+    //Check if the favorite view or not
     var isFavorite = true
     
+    // MARK:- OUTLET
     @IBOutlet weak var tblResults: UITableView!
     @IBOutlet weak var lblNoFavorite: UILabel!
     
@@ -37,6 +40,7 @@ class ResearchVC: UIViewController {
         navigationItem.title = "Reciplease"
         lblNoFavorite.isHidden = true
         
+        // if Favorite get recipe from Core Data
         if isFavorite{
             if Recipe.allRecipe.isEmpty{
                 print("No favorite yet")
@@ -48,7 +52,7 @@ class ResearchVC: UIViewController {
             }
         }else{
             self.tabBarController?.tabBar.isHidden              = true
-            //getRecipe(ingredients: searchIngredients!)
+    
             getRecipeAlamo(ingredients: searchIngredients!)
             
             tblResults.tableFooterView = UIView()
@@ -70,7 +74,7 @@ class ResearchVC: UIViewController {
             }
         }else{
             self.tabBarController?.tabBar.isHidden              = true
-            //getRecipe(ingredients: searchIngredients!)
+        
             getRecipeAlamo(ingredients: searchIngredients!)
         }
         tblResults.tableFooterView = UIView()
@@ -88,8 +92,9 @@ class ResearchVC: UIViewController {
         }
     }*/
     
+    // MARK:- FUNCTION
+    
     func getRecipeAlamo(ingredients: String){
-        //search.getRecipAlamo(ingredients: ingredients) { (recipe, error) in
         search.networkRequest.request(URL(string: "https://api.edamam.com/search?")!, ingredients: ingredients) { (recipe, error) in
                 if let recipe = recipe {
                     self.dataRecipe = recipe
@@ -109,8 +114,6 @@ class ResearchVC: UIViewController {
                 recipeNameText += name + "\n"
             }
         }
-        
-        print(recipeNameText)
     }
     
     func listIngredientsToString(listIngredients: [String]) -> String {
@@ -122,6 +125,8 @@ class ResearchVC: UIViewController {
     }
 }
 
+
+// MARK:- Extension
 extension ResearchVC : UITableViewDataSource, UITableViewDelegate{
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -144,7 +149,7 @@ extension ResearchVC : UITableViewDataSource, UITableViewDelegate{
         let cell = tableView.dequeueReusableCell(withIdentifier: "ResultsCell", for: indexPath) as! ResultsCell
         
         if isFavorite{
-            cell.recipeNameLbl.text = Recipe.allRecipe[indexPath.row].name
+            //cell.recipeNameLbl.text = Recipe.allRecipe[indexPath.row].name
             cell.ingredientsLbl.text = Recipe.allRecipe[indexPath.row].ingredients
             
             if let urlUnwrap = Recipe.allRecipe[indexPath.row].urlImage {

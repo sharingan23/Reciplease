@@ -2,7 +2,7 @@
 //  Recipe+CoreDataClass.swift
 //  Reciplease
 //
-//  Created by Vigneswaranathan Sugeethkumar on 21/09/2019.
+//  Created by Vigneswaranathan Sugeethkumar on 27/09/2019.
 //
 //
 
@@ -18,12 +18,11 @@ public class Recipe: NSManagedObject {
         return recipes
     }
     
-    
     static func deleteRecipe(index: Int){
         let request: NSFetchRequest<Recipe> = Recipe.fetchRequest()
         if let recipeTest = try? AppDelegate.viewContext.fetch(request){
             //AppDelegate.viewContext.delete(recipe)
-                AppDelegate.viewContext.delete(recipeTest[index])
+            AppDelegate.viewContext.delete(recipeTest[index])
         }
     }
     

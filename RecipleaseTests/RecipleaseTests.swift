@@ -130,7 +130,9 @@ class RecipleaseTests: XCTestCase {
             let recipeName = "Chicken Vesuvio"
             
             XCTAssertNil(error)
+            
             XCTAssertEqual(recipeName, recipe?.hits[0].recipe.label)
+            
             expectation.fulfill()
         }
         wait(for: [expectation], timeout: 1)
@@ -146,10 +148,10 @@ class RecipleaseTests: XCTestCase {
     
         recipe.name = "Chicken"
         
-         try? AppDelegate.viewContext.save()
+        try? ctx.save()
         
-        XCTAssertEqual(Recipe.allRecipe[0].name, "Chicken")
-        
+        XCTAssertTrue(Recipe.allRecipe.contains(where: { $0.name == "Chicken"}))
+
         XCTAssertTrue((Recipe.allRecipe.count == 1))
     }
     
@@ -163,14 +165,15 @@ class RecipleaseTests: XCTestCase {
         
         recipe.name = "Chicken"
         
+        
+        try? ctx.save()
+        
         XCTAssertTrue((Recipe.allRecipe.count == 1))
         
-        XCTAssertEqual(Recipe.allRecipe[0].name, "Chicken")
+        XCTAssertTrue(Recipe.allRecipe.contains(where: { $0.name == "Chicken"}))
         
         Recipe.deleteRecipe(index: 0)
-        
-         try? AppDelegate.viewContext.save()
-        
+    
         XCTAssertTrue((Recipe.allRecipe.count == 0))
     }
     
@@ -180,34 +183,26 @@ class RecipleaseTests: XCTestCase {
         XCTAssertTrue((Recipe.allRecipe.count == 0))
         
         let ctx = AppDelegate.viewContext
+        
         let recipe = Recipe(context: ctx)
-        
-        try? AppDelegate.viewContext.save()
-        
         recipe.name = "Chicken"
         
-        let ctx1 = AppDelegate.viewContext
-        let recipe1 = Recipe(context: ctx1)
+        let recipe1 = Recipe(context: ctx)
         recipe1.name = "Mojito"
         
-        try? AppDelegate.viewContext.save()
-        
-        let ctx2 = AppDelegate.viewContext
-        let recipe2 = Recipe(context: ctx2)
+        let recipe2 = Recipe(context: ctx)
         recipe2.name = "Biriyani"
         
-        try? AppDelegate.viewContext.save()
+        try? ctx.save()
         
         
         XCTAssertTrue((Recipe.allRecipe.count == 3))
         
-        XCTAssertEqual(Recipe.allRecipe[1].name, "Chicken")
-        XCTAssertEqual(Recipe.allRecipe[0].name, "Biriyani")
-        XCTAssertEqual(Recipe.allRecipe[2].name, "Mojito")
+        XCTAssertTrue(Recipe.allRecipe.contains(where: { $0.name == "Chicken"}))
+        XCTAssertTrue(Recipe.allRecipe.contains(where: { $0.name == "Biriyani"}))
+        XCTAssertTrue(Recipe.allRecipe.contains(where: { $0.name == "Mojito"}))
         
-        try? AppDelegate.viewContext.save()
-        
-         Recipe.deleteALLRecipe()
+        Recipe.deleteALLRecipe()
         
         XCTAssertTrue((Recipe.allRecipe.count == 0))
     }

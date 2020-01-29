@@ -6,8 +6,8 @@
 //
 
 import Foundation
-import UIKit
 import Alamofire
+
 
 struct Recipes: Codable {
     let q: String

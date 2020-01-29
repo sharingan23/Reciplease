@@ -5,9 +5,10 @@
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="source" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="timeRecipe" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="url" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="urlImage" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Recipe" positionX="-1563.99609375" positionY="-1098.296875" width="128" height="120"/>
+        <element name="Recipe" positionX="-1563.99609375" positionY="-1098.296875" width="128" height="135"/>
     </elements>
 </model>

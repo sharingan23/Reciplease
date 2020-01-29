@@ -10,6 +10,7 @@
 		4B69BC740AB07B2658330A8B /* Pods_Reciplease.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF739A6D4E5DCAC673DFB04C /* Pods_Reciplease.framework */; };
 		5D19260A636CDD776DDE3DDF /* Pods_RecipleaseTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29CB4558A3BB1CB7C58DFB0D /* Pods_RecipleaseTests.framework */; };
 		76B82D3D12023363E7CA5ACB /* Pods_RecipleaseUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB235A3714161AA485712F58 /* Pods_RecipleaseUITests.framework */; };
+		79049F7823E0FAD4006D028F /* GetDirectionsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79049F7723E0FAD4006D028F /* GetDirectionsVC.swift */; };
 		7909DFF523D4A5A8000690B4 /* ErrorFake.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7909DFF423D4A5A8000690B4 /* ErrorFake.swift */; };
 		7910A4492358CF1300402F6C /* FakeResponseData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7910A4482358CF1300402F6C /* FakeResponseData.swift */; };
 		7910A44B2358D19600402F6C /* Recipe.json in Resources */ = {isa = PBXBuildFile; fileRef = 7910A44A2358D19600402F6C /* Recipe.json */; };
@@ -53,6 +54,7 @@
 /* Begin PBXFileReference section */
 		29CB4558A3BB1CB7C58DFB0D /* Pods_RecipleaseTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RecipleaseTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		40F6B0A194948B476BD46C11 /* Pods-Reciplease.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Reciplease.debug.xcconfig"; path = "Target Support Files/Pods-Reciplease/Pods-Reciplease.debug.xcconfig"; sourceTree = "<group>"; };
+		79049F7723E0FAD4006D028F /* GetDirectionsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetDirectionsVC.swift; sourceTree = "<group>"; };
 		7909DFF423D4A5A8000690B4 /* ErrorFake.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorFake.swift; sourceTree = "<group>"; };
 		7910A4482358CF1300402F6C /* FakeResponseData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeResponseData.swift; sourceTree = "<group>"; };
 		7910A44A2358D19600402F6C /* Recipe.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Recipe.json; sourceTree = "<group>"; };
@@ -237,6 +239,7 @@
 				793CF8D922A83F6D00F6DB94 /* SearchVC.swift */,
 				79292E4A22B039E600C84EA1 /* ResearchVC.swift */,
 				79292E4922B039B400C84EA1 /* Cell */,
+				79049F7723E0FAD4006D028F /* GetDirectionsVC.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -512,6 +515,7 @@
 				79292E4D22B03A3000C84EA1 /* ResultsCell.swift in Sources */,
 				793CF8DA22A83F6D00F6DB94 /* SearchVC.swift in Sources */,
 				79B8C06F233E43B70033A8EA /* Recipe+CoreDataProperties.swift in Sources */,
+				79049F7823E0FAD4006D028F /* GetDirectionsVC.swift in Sources */,
 				793CF8AF22A83E8D00F6DB94 /* Reciplease.xcdatamodeld in Sources */,
 				793CF8A722A83E8D00F6DB94 /* AppDelegate.swift in Sources */,
 			);

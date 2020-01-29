@@ -11,12 +11,15 @@ import CoreData
 
 class IngredientsVC: UIViewController {
     
+    //Images
     let favoriteUncheck = UIImage(named: "favoriteUnCheck")
     let favoriteCheck = UIImage(named: "favoriteCheck")
     
+    //Check if the view is from favorite view or search View
     var fromFavorite = true
     var isFavorite = true
     
+    // MARK: -OUTLET
     @IBOutlet weak var imgRecipe: UIImageView!
     @IBOutlet weak var recipeName: UILabel!
     
@@ -24,6 +27,9 @@ class IngredientsVC: UIViewController {
     
     
     @IBOutlet weak var ingredientTbl: UITableView!
+    
+    
+    // MARK:- VARIABLES
     var dataRecipe : Recipes.Recipe?
     
     var indexRecipe : Int? = nil
@@ -32,13 +38,17 @@ class IngredientsVC: UIViewController {
     
     var url : URL?
     
+    
+    //INITIATE CONTROLLER
     class func initiateController() -> IngredientsVC {
         let storyboard  = UIStoryboard(name: "Main", bundle: nil)
         let controller  = storyboard.instantiateViewController(withIdentifier: "IngredientsVC") as! IngredientsVC
         return controller
     }
 
+    
     let sectionName = ["Ingredients"]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -47,9 +57,11 @@ class IngredientsVC: UIViewController {
         navigationItem.title = "Reciplease"
         
         ingredientLbl.isHidden = true
+        ingredientTbl.isHidden = false
         ingredientTbl.tableFooterView = UIView()
         
         if isFavorite{
+            ingredientTbl.isHidden = true
             recipeName.text = Recipe.allRecipe[indexRecipe!].name
             url = URL(string: (Recipe.allRecipe[indexRecipe!].urlImage)!)
             ingredientLbl.isHidden = false
@@ -70,6 +82,7 @@ class IngredientsVC: UIViewController {
         // Do any additional setup after loading the view.
     }
     
+    //MARK:- FUNCTIONS
     func addRightBarButton(){
         if isFavorite{
             self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: favoriteCheck, style: .done, target: self, action: #selector(checkFavorite))
@@ -86,14 +99,15 @@ class IngredientsVC: UIViewController {
         if let recipeFavorite = dataRecipe{
                 recipe.name = (recipeFavorite.label)
                 recipe.urlImage = (recipeFavorite.image)
+                recipe.url = (recipeFavorite.url)
             
             for ingredientsL in recipeFavorite.ingredientLines{
                 
             ingredientsOneline += ("\(ingredientsL) ")
-                
+                //recipe.ingredients?.append(ingredientsL)
             }
             
-            recipe.ingredients = ingredientsOneline
+                recipe.ingredients = ingredientsOneline
             
             try? AppDelegate.viewContext.save()
             
@@ -113,6 +127,31 @@ class IngredientsVC: UIViewController {
         Recipe.deleteALLRecipe()
         
         try? AppDelegate.viewContext.save()
+    }
+    
+    //MARK:- ACTIONS
+    
+    @IBAction func getDirectionsTapped(_ sender: Any) {
+        
+        if let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "GetDirectionsVC") as? GetDirectionsVC {
+            
+            if let navigator = navigationController {
+                
+                let backItem = UIBarButtonItem()
+                backItem.tintColor = #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 1)
+                backItem.title = ""
+                navigationItem.backBarButtonItem = backItem
+                
+                if fromFavorite{
+                    viewController.url = Recipe.allRecipe[indexRecipe!].url
+                }else{
+                    viewController.url = dataRecipe!.url
+                }
+                
+
+                navigator.pushViewController(viewController, animated: true)
+            }
+        }
     }
     
     @objc func checkFavorite(sender: UIButton) {
@@ -136,6 +175,9 @@ class IngredientsVC: UIViewController {
     }
 }
 
+
+
+//MARK:- Extension
 extension IngredientsVC: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if isFavorite{
@@ -162,6 +204,7 @@ extension IngredientsVC: UITableViewDataSource, UITableViewDelegate {
         let cell = tableView.dequeueReusableCell(withIdentifier: "IngredientsDetailCell") as!  IngredientsDetailCell
         
         if fromFavorite {
+            //cell.lblingredients.text = Recipe.allRecipe[indexRecipe!].ingredients![indexPath.row]
         }else{
             ingredientLbl.isHidden = true
             cell.lblingredients.text = dataRecipe!.ingredientLines[indexPath.row]

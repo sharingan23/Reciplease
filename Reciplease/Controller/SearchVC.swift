@@ -9,10 +9,13 @@ import UIKit
 
 class SearchVC: UIViewController {
 
+    
+    //MARK:- OUTLET
     @IBOutlet weak var tblIngredients: UITableView!
     
     @IBOutlet weak var searchTF: UITextField!
     
+    //MARK:- VARIABLES
     var listIngredients : [String] = []
     var stringIngredients = ""
     
@@ -21,6 +24,9 @@ class SearchVC: UIViewController {
         
         tblIngredients.tableFooterView = UIView()
         navigationItem.title = "Reciplease"
+        
+        self.searchTF.delegate = self
+        searchTF.returnKeyType = UIReturnKeyType.done
         
         //title color
         /*let textAttributes = [NSAttributedString.Key.foregroundColor:#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)]
@@ -40,15 +46,27 @@ class SearchVC: UIViewController {
         self.tabBarController?.tabBar.isHidden              = false
     }
     
+    //MARK:- ACTIONS
     @IBAction func addIngredients(_ sender: Any) {
         if let searchTF = searchTF{
-        let ingredient = searchTF.text!
-        listIngredients.append("- \(ingredient)")
-        stringIngredients = stringIngredients + " \(ingredient)"
+            if searchTF.text == ""{
+                // create the alert
+                let alert = UIAlertController(title: "Word not found", message: "Please enter ingredients.", preferredStyle: UIAlertController.Style.alert)
+                
+                // add an action (button)
+                alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+                
+                // show the alert
+                self.present(alert, animated: true, completion: nil)
+            }else{
+                let ingredient = searchTF.text!
+                listIngredients.append("- \(ingredient)")
+                stringIngredients = stringIngredients + " \(ingredient)"
             
-        searchTF.text = ""
+                searchTF.text = ""
             
-        tblIngredients.reloadData()
+                tblIngredients.reloadData()
+            }
         }
     }
     
@@ -89,7 +107,9 @@ class SearchVC: UIViewController {
     }
     
     @IBAction func dissmissTapKeyboard(_ sender: Any) {
+        searchTF.resignFirstResponder()
     }
+    
     
     /*
     // MARK: - Navigation
@@ -103,6 +123,13 @@ class SearchVC: UIViewController {
 }
 
 
+//MARK:- EXTENSION
+extension SearchVC: UITextFieldDelegate{
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.view.endEditing(true)
+        return false
+    }
+}
 extension SearchVC : UITableViewDataSource, UITableViewDelegate{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return listIngredients.count
@@ -118,5 +145,12 @@ extension SearchVC : UITableViewDataSource, UITableViewDelegate{
         cell.ingredients.text = listIngredients[indexPath.row]
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            self.listIngredients.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+        }
     }
 }
