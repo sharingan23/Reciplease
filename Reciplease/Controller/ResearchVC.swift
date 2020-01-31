@@ -10,6 +10,9 @@ import Kingfisher
 
 class ResearchVC: UIViewController {
     
+    //MARK:- Images
+    let deleteAllImage = UIImage(named: "deleteAll")
+    
     // MARK:- VARIABLES
     var search = SearchManager()
     
@@ -37,6 +40,8 @@ class ResearchVC: UIViewController {
         
         displayRecipeList()
         
+        addRightBarButton()
+        
         navigationItem.title = "Reciplease"
         lblNoFavorite.isHidden = true
         
@@ -58,7 +63,7 @@ class ResearchVC: UIViewController {
             tblResults.tableFooterView = UIView()
             tblResults.reloadData()
         }
-
+        
         // Do any additional setup after loading the view.
     }
     
@@ -93,6 +98,22 @@ class ResearchVC: UIViewController {
     }*/
     
     // MARK:- FUNCTION
+    
+    func addRightBarButton(){
+        if isFavorite{
+            self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: deleteAllImage, style: .done, target: self, action: #selector(deleteAll))
+        }
+    }
+    
+    @objc func deleteAll(sender: UIButton) {
+        deleteAllRecipe()
+        tblResults.reloadData()
+    }
+    
+    func deleteAllRecipe() {
+        Recipe.deleteALLRecipe()
+        try? AppDelegate.viewContext.save()
+    }
     
     func getRecipeAlamo(ingredients: String){
         search.networkRequest.request(URL(string: "https://api.edamam.com/search?")!, ingredients: ingredients) { (recipe, error) in
@@ -221,6 +242,13 @@ extension ResearchVC : UITableViewDataSource, UITableViewDelegate{
                     navigator.pushViewController(viewController, animated: true)
                 }
             }
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            Recipe.deleteRecipe(index: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .automatic)
         }
     }
 }
