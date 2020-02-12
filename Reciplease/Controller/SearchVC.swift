@@ -22,6 +22,7 @@ class SearchVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
         tblIngredients.tableFooterView = UIView()
         navigationItem.title = "Reciplease"
         
@@ -43,6 +44,9 @@ class SearchVC: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        listIngredients.removeAll()
+        tblIngredients.reloadData()
+        stringIngredients.removeAll()
         self.tabBarController?.tabBar.isHidden              = false
     }
     

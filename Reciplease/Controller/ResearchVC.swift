@@ -57,7 +57,7 @@ class ResearchVC: UIViewController {
             }
         }else{
             self.tabBarController?.tabBar.isHidden              = true
-    
+            print("INGRE : \(searchIngredients)")
             getRecipeAlamo(ingredients: searchIngredients!)
             
             tblResults.tableFooterView = UIView()
@@ -243,13 +243,6 @@ extension ResearchVC : UITableViewDataSource, UITableViewDelegate{
                 }
             }
         }
-    }
-    
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            Recipe.deleteRecipe(index: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .automatic)
-        }
-    }
+    }    
 }
 
